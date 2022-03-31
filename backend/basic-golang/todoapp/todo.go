@@ -13,10 +13,12 @@ type Todos struct {
 
 func (todos *Todos) Add(item Item) {
 	// TODO: answer here
+	todos.items = append(todos.items, item)
 }
 
 func (todos *Todos) GetAll() []Item {
-	return []Item{} // TODO: replace this
+	return todos.items
+	// return []Item{} // TODO: replace this
 }
 
 func (todos *Todos) GetUpcoming() []Item {
