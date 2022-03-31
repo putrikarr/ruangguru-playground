@@ -32,7 +32,7 @@ func GetAge(data map[string]int, name string) (int, error) {
 		// Isilah baris ini dengan return 0 dan custom error yang telah dibuat dengan message error invalid data dan errCode 500
 		// TODO: answer here
 		return 0, &ErrorDataNotFound{
-			message: fmt.Sprintf("%s invalid data", name),
+			message: fmt.Sprint("error invalid data"),
 			errCode: 500,
 		}
 	}
