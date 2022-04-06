@@ -42,5 +42,8 @@ func (api *API) logout(w http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	encoder.Encode(AuthErrorResponse{Error: ""}) // TODO: replace this
+	json.NewEncoder(w).Encode(LoginSuccessResponse{Username: ""}) // TODO: replace this
 }
+
+// 	encoder.Encode(AuthErrorResponse{Error: ""}) // TODO: replace this
+// }
