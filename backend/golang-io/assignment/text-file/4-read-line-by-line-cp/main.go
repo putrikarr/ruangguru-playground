@@ -12,9 +12,34 @@ func main() {
 }
 
 func ScanToArray(arr *[]string, fileName string) error {
-	return nil // TODO: replace this
+	//return nil // TODO: replace this
+	file, err := os.Open(fileName)
+	if err != nil {
+		return err
+	}
+	defer file.Close()
+
+	scanner := bufio.NewScanner(file)
+	for scanner.Scan() {
+		*arr = append(*arr, scanner.Text())
+	}
+	return nil
 }
 
 func ScanToMap(dataMap map[string]string, fileName string) error {
-	return nil // TODO: replace this
+	//return nil // TODO: replace this
+	file, err := os.Open(fileName)
+	if err != nil {
+		return err
+	}
+	defer file.Close()
+
+	scanner := bufio.NewScanner(file)
+	// scanner.Split(bufio.ScanWords)
+	for scanner.Scan() {
+		text := strings.Split((scanner.Text()), ",")
+
+		dataMap[text[0]] = text[1]
+	}
+	return nil
 }
