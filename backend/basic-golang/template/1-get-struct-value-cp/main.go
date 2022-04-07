@@ -14,12 +14,20 @@ import (
 
 type Student struct {
 	// TODO: answer here
+	Name         string
+	ScoreAverage float64
 }
 
 // main function
 func main() {
 	buff := new(bytes.Buffer)
 	// TODO: answer here
+	std := Student{Name: "Rogu", ScoreAverage: 7.8}
+	tmp1 := template.New("Template_1")
+	tmp1, err := tmp1.Parse("Hello {{.Name}},\nNilai rata-rata kamu {{.ScoreAverage}}\n")
+	if err != nil {
+		log.Fatalf("parse error: %s", err.Error())
+	}
 
 	if err := tmp1.Execute(buff, std); err != nil {
 		log.Fatalf("execute template error: %s", err.Error())
