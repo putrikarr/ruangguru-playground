@@ -2,7 +2,7 @@ package api
 
 import (
 	"encoding/json"
-	//"fmt"
+	"fmt"
 	"net/http"
 
 	"github.com/ruang-guru/playground/backend/basic-golang/cashier-app/repository"
@@ -76,7 +76,7 @@ func (api *API) cartList(w http.ResponseWriter, req *http.Request) {
 		}
 	}()
 
-	//fmt.Println(cartItems)
+	fmt.Println(cartItems)
 
 	encoder.Encode(CartListSuccessResponse{CartItems: cartItems}) // TODO: replace this
 }

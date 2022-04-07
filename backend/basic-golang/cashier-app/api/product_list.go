@@ -2,7 +2,7 @@ package api
 
 import (
 	"encoding/json"
-	//"fmt"
+	"fmt"
 	"net/http"
 )
 
@@ -37,6 +37,8 @@ func (api *API) productList(w http.ResponseWriter, req *http.Request) {
 	if err != nil {
 		return
 	}
+
+	fmt.Println(products)
 
 	for _, product := range products {
 		response.Products = append(response.Products, Product{

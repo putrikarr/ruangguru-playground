@@ -22,7 +22,19 @@ func GetPokemonData() (*Pokemon, error) {
 	apiPath := "https://pokeapi.co/api/v2/pokemon/1"
 	fmt.Println(apiPath)
 
-	panic("Not yet implemented") // TODO: answer here
+	// TODO: answer here
+	client := &http.Client{}
+	res, err := client.Get(apiPath)
+
+	if err != nil {
+		return nil, err
+	}
+	defer res.Body.Close()
+
+	pokemon := Pokemon{}
+	json.NewDecoder(res.Body).Decode(&pokemon)
+
+	return &pokemon, nil
 }
 
 func main() {
