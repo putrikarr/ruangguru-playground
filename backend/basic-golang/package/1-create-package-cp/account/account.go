@@ -8,7 +8,6 @@ type Account struct {
 
 func (a Account) GetBalance() int {
 	// TODO: answer here
-	a.Balance = 100
 	return a.Balance
 }
 
