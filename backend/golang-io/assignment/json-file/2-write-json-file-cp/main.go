@@ -27,7 +27,19 @@ func main() {
 }
 
 func writeJSON(fileName string, data []student) error {
-	return nil // TODO: replace this
+	// TODO: replace this
+	path, err := filepath.Abs(fileName + ".json")
+	if err != nil {
+		return err
+	}
+	file, err := openFile(path)
+	if err != nil {
+		return err
+	}
+	defer file.Close()
+	jsonData, _ := json.Marshal(data)
+	ioutil.WriteFile(path, jsonData, 0644)
+	return nil
 }
 
 func openFile(path string) (*os.File, error) {
