@@ -22,7 +22,14 @@ func (todos *Todos) GetAll() []Item {
 }
 
 func (todos *Todos) GetUpcoming() []Item {
-	return []Item{} // TODO: replace this
+	//return []Item{} // TODO: replace this
+	var upcoming []Item
+	for _, item := range todos.items {
+		if item.Deadline.After(time.Now()) {
+			upcoming = append(upcoming, item)
+		}
+	}
+	return upcoming
 }
 
 func NewItem(title string, deadline time.Time) Item {
