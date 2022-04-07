@@ -2,7 +2,7 @@ package main
 
 import (
 	"encoding/json"
-	"fmt"
+	//"fmt"
 )
 
 // Dari contoh yang telah diberikan, cobalah untuk melakukan decode dari json menjadi objek dari struct.
@@ -17,8 +17,8 @@ import (
 type UserRank struct {
 	// TODO: answer here
 	Name  string `json:"name"`
+	Email string `json:"-"`
 	Rank  int    `json:"rank"`
-	Email string
 }
 
 type Leaderboard struct {
@@ -27,35 +27,12 @@ type Leaderboard struct {
 
 func DecodeToLeaderboard(jsonData []byte) (Leaderboard, error) {
 	// TODO: answer here
-	byteJSONdata := []byte(`[
-		{
-			Name: "Roger",
-			Rank: 1,
-		},
-		{
-			Name: "Tony",
-			Rank: 2,
-		},
-		{
-			Name: "Bruce",
-			Rank: 3,
-		},
-		{
-			Name: "Natasha",
-			Rank: 4,
-		},
-		{
-			Name: "Clint",
-			Rank: 5,
-		},
-}]`)
-
-	u := UserRank{}
-	err := json.Unmarshal(byteJSONdata, &u)
+	var leaderboard Leaderboard
+	err := json.Unmarshal(jsonData, &leaderboard)
 	if err != nil {
-		println(err)
+		return Leaderboard{}, err
 	}
-	fmt.Println(u)
-	return Leaderboard{}, nil
+
+	return leaderboard, nil
 
 }
