@@ -12,6 +12,13 @@ import (
 //hal ini perlu dilakukan agar file yang dicari dapat ditemukan
 
 // TODO: answer here
+type user struct {
+	Name   string `json:"name"`
+	School string `json:"age"`
+	Class  string `json:"email"`
+	Phone  string `json:"role"`
+	Score  int    `json:"status"`
+}
 
 func (s user) String() string {
 	return fmt.Sprintf("name: %v\nschool: %v\nclass: %v\nphone: %v\nscore: %v\n", s.Name, s.School, s.Class, s.Phone, s.Score)
@@ -30,7 +37,22 @@ func main() {
 }
 
 func readJSON(fileName string) ([]user, error) {
-	[]user{}, nil // TODO: replace this
+	//[]user{}, nil // TODO: replace this
+	path, err := filepath.Abs(fileName + ".json")
+	if err != nil {
+		return nil, err
+	}
+	file, err := openFile(path)
+	if err != nil {
+		return nil, err
+	}
+	defer file.Close()
+
+	users := []user{}
+
+	byteValue, _ := ioutil.ReadAll(file)
+	json.Unmarshal(byteValue, &users)
+	return users, nil
 }
 
 func openFile(path string) (*os.File, error) {
