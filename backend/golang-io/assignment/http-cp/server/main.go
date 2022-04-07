@@ -3,37 +3,45 @@ package main
 import (
 	"fmt"
 	"net/http"
-	"net/http/httptest"
+
+	//"net/http/httptest"
 	"strconv"
 )
 
 func Routes() *http.ServeMux {
 	mux := http.NewServeMux()
 	mux.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		wr := httptest.NewRecorder()
-		req := httptest.NewRequest("GET", "/", nil)
-		Routes().ServeHTTP(wr, req)
 		// TODO: answer here
+		w.WriteHeader(http.StatusOK)
+		w.Write([]byte("Hello, world!"))
 	})
 	mux.HandleFunc("/echo", func(w http.ResponseWriter, r *http.Request) {
-		wr := httptest.NewRecorder()
-		req := httptest.NewRequest("GET", "/echo?data=Hi!", nil)
-		Routes().ServeHTTP(wr, req)
 		// TODO: answer here
+		data := r.URL.Query().Get("data")
+		w.Write([]byte(data))
 	})
 	mux.HandleFunc("/add", func(w http.ResponseWriter, r *http.Request) {
-		a, _ := strconv.Atoi(r.URL.Query().Get("a"))
-		b, _ := strconv.Atoi(r.URL.Query().Get("b"))
-		fmt.Fprintf(w, "%d", a+b)
-
 		// TODO: answer here
+		a := r.URL.Query().Get("a")
+		aInt, err := strconv.Atoi(a)
+		if err != nil {
+			w.WriteHeader(http.StatusBadRequest)
+			return
+		}
+		b := r.URL.Query().Get("b")
+		bInt, err := strconv.Atoi(b)
+		if err != nil {
+			w.WriteHeader(http.StatusBadRequest)
+			return
+		}
+
+		sum := aInt + bInt
+		w.Write([]byte(fmt.Sprint(sum)))
 	})
 	mux.HandleFunc("/hellojson", func(w http.ResponseWriter, r *http.Request) {
-		fmt.Errorf("%s", r.URL.Query().Get("a"))
-		// wr := httptest.NewRecorder()
-		// req := httptest.NewRequest("GET", "/hellojson", nil)
-		// server.Routes().ServeHTTP(wr, req)
 		// TODO: answer here
+		w.Header().Set("Content-Type", "application/json")
+		w.Write([]byte(`{"message": "Hello, world!"}`))
 	})
 
 	return mux
