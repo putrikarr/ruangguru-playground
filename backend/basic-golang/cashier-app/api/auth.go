@@ -39,7 +39,7 @@ func (api *API) logout(w http.ResponseWriter, req *http.Request) {
 		w.WriteHeader(http.StatusUnauthorized)
 		encoder := json.NewEncoder(w)
 		encoder.Encode(AuthErrorResponse{Error: err.Error()})
-		return
+
 	}
 
 	json.NewEncoder(w).Encode(AuthErrorResponse{Error: username}) // TODO: replace this
