@@ -7,4 +7,7 @@ import "fmt"
 // Outputkan hasilnya ya
 func main() {
 	// TODO: answer here
+	array := [5]string{"P", "U", "T", "R", "I"}
+
+	fmt.Print(array[0], array[4])
 }
