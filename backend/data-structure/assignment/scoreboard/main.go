@@ -11,6 +11,7 @@ type Score struct {
 	Wrong   int
 	Empty   int
 }
+
 type Scores []Score
 
 func (s Scores) Len() int {
@@ -19,16 +20,28 @@ func (s Scores) Len() int {
 
 func (s Scores) Less(i, j int) bool {
 	for _, score := range s {
-		if score.Correct+score.Wrong+score.Empty == 0 {
-			return false
-		}
-		if score.Correct+score.Wrong+score.Empty == s[i].Correct+s[i].Wrong+s[i].Empty {
-			return score.Name < s[j].Name
+		if score.Name == s[i].Name {
+			if (score.Correct*4)-score.Wrong == (s[i].Correct*4)-s[i].Wrong {
+				return (s[i].Correct*4)-s[i].Wrong > (s[j].Correct*4)-s[j].Wrong
+			}
+			return (score.Correct*4)-s[i].Wrong > (s[j].Correct*4)-s[j].Wrong
+			//return true
 		}
 	}
 	return false
-	//return false // TODO: replace this
 }
+
+// func (s Scores) Less(i, j int) bool {
+// 	if (s[i].Correct*4)-s[i].Wrong > (s[j].Correct*4)-s[j].Wrong {
+// 		return true
+// 	}
+// 	if (s[i].Correct*4)-s[i].Wrong == (s[j].Correct*4)-s[j].Wrong {
+// 		if s[i].Name < s[j].Name {
+// 			return true
+// 		}
+// 	}
+// 	return false
+// }
 
 func (s Scores) Swap(i, j int) {
 	s[i], s[j] = s[j], s[i]
@@ -51,6 +64,11 @@ func main() {
 		{"Ega", 3, 0, 7},
 		{"Anton", 2, 0, 5},
 	})
+
+	for _, score := range scores {
+		fmt.Printf("%s: %d\n", score.Name, (score.Correct*4)-score.Wrong)
+	}
+
 	sort.Sort(scores)
 	fmt.Println(scores.TopStudents())
 }
