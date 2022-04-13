@@ -21,11 +21,17 @@ func (s Scores) Len() int {
 func (s Scores) Less(i, j int) bool {
 	for _, score := range s {
 		if score.Name == s[i].Name {
-			if (score.Correct*4)-score.Wrong == (s[i].Correct*4)-s[i].Wrong {
+			if (s[i].Correct*4)-s[i].Wrong == (s[i].Correct*4)-s[i].Wrong {
 				return (s[i].Correct*4)-s[i].Wrong > (s[j].Correct*4)-s[j].Wrong
 			}
-			return (score.Correct*4)-s[i].Wrong > (s[j].Correct*4)-s[j].Wrong
-			//return true
+		}
+	}
+	if (s[i].Correct*4)-s[i].Wrong == (s[j].Correct*4)-s[j].Wrong {
+		if s[i].Name < s[j].Name {
+			return true
+		}
+		if (s[i].Correct*4)-s[i].Wrong > (s[j].Correct*4)-s[j].Wrong {
+			return true
 		}
 	}
 	return false
@@ -59,7 +65,7 @@ func (s Scores) TopStudents() []string {
 func main() {
 	scores := Scores([]Score{
 		{"Levi", 3, 2, 2},
-		{"Agus", 3, 4, 0},
+		{"Agus", 5, 4, 0},
 		{"Doni", 3, 0, 7},
 		{"Ega", 3, 0, 7},
 		{"Anton", 2, 0, 5},
