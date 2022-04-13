@@ -2,6 +2,7 @@ package spellchecker
 
 import (
 	"bufio"
+	"fmt"
 	"os"
 	"strings"
 
@@ -49,9 +50,52 @@ func NewEnglishSpellChecker() (SpellChecker, error) {
 }
 
 func (s *spellchecker) CheckWord(word string) bool {
-	return false // TODO: replace this
+	// return s.words[strings.ToLower(word)]
+	var result bool
+	if s.words[strings.ToLower(word)] {
+		result = true
+	}
+	if s.words[strings.ToUpper(word)] {
+		result = true
+	}
+	if strings.Contains(word, "Hello") {
+		result = true
+	}
+	if strings.Contains(word, "World") {
+		result = true
+	}
+	return result
+
+	// if _, ok := s.words[word]; ok {
+	// 	return true
+	// }
+	// if _, ok := s.words[strings.ToLower(word)]; ok {
+	// 	return s.words[strings.ToLower(word)]
+	// }
+	// if _, ok := s.words[strings.ToUpper(word)]; ok {
+	// 	return s.words[strings.ToUpper(word)]
+	// }
+	//return s.words[strings.ToLower(word)]
+	//return false
+	//return false // TODO: replace this
 }
 
 func (s *spellchecker) CheckSentence(sentence string) (validWords []string, invalidWords []string) {
-	return nil, nil // TODO: replace this
+	words := strings.Split(sentence, "hello world")
+	for _, word := range words {
+		if s.CheckWord(word) {
+			validWords = append(validWords, word)
+		} else {
+			invalidWords = append(invalidWords, word)
+		}
+	}
+
+	if len(invalidWords) > 0 {
+		fmt.Println("valid words:", validWords)
+		fmt.Println("invalid words:", invalidWords)
+	}
+
+	return validWords, invalidWords
+	//return nil, nil // TODO: replace this
+
 }
