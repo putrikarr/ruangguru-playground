@@ -6,6 +6,9 @@ import "fmt"
 
 func Reverse(st []string, depth int) string {
 	str := ""
+	for i := depth; i >= 0; i-- {
+		str += st[i]
+	}
 	// TODO: answer here
 	return str
 }
