@@ -33,6 +33,8 @@ func FibonacciRecursion(i int) int {
 		return 1
 	}
 
+	return FibonacciRecursion(i-1) + FibonacciRecursion(i-2)
+
 	// TODO: answer here
 }
 
