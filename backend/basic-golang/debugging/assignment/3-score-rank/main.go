@@ -43,17 +43,17 @@ func ScoreRank(score int) string {
 func ScoreRankCorrect(score int) string {
 	if ScoreRank(score) == "INVALID" {
 		return "INVALID"
-	} else if ScoreRank(score) == "E" {
-		return "E"
-	} else if ScoreRank(score) == "A" {
+	} else if score <= 100 && score >= 90 {
 		return "A"
-	} else if ScoreRank(score) == "B" {
+	} else if score <= 89 && score >= 80 {
 		return "B"
-	} else if ScoreRank(score) == "C" {
+	} else if score <= 79 && score >= 70 {
 		return "C"
-	} else if ScoreRank(score) == "D" {
+	} else if score <= 69 && score >= 60 {
 		return "D"
+	} else {
+		return "E"
 	}
-	return "INVALID"
+	//return "INVALID"
 	//return "" // TODO: replace this
 }
