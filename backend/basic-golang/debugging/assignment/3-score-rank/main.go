@@ -41,5 +41,19 @@ func ScoreRank(score int) string {
 }
 
 func ScoreRankCorrect(score int) string {
-	return "" // TODO: replace this
+	if ScoreRank(score) == "INVALID" {
+		return "INVALID"
+	} else if ScoreRank(score) == "E" {
+		return "E"
+	} else if ScoreRank(score) == "A" {
+		return "A"
+	} else if ScoreRank(score) == "B" {
+		return "B"
+	} else if ScoreRank(score) == "C" {
+		return "C"
+	} else if ScoreRank(score) == "D" {
+		return "D"
+	}
+	return "INVALID"
+	//return "" // TODO: replace this
 }

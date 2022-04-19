@@ -22,5 +22,14 @@ func SumAll(arr []int) int {
 }
 
 func SumAllCorrect(arr []int) int {
-	return 0 // TODO: replace this
+	if len(arr) == 0 {
+		return 0
+	}
+
+	if len(arr) == 1 {
+		return arr[0]
+	}
+
+	return arr[0] + SumAllCorrect(arr[1:])
+	//return 0 // TODO: replace this
 }
