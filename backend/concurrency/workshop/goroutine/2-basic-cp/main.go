@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"time"
 	// TODO: answer here
 )
 
@@ -14,5 +15,6 @@ func multiply(a, b int, called *bool) {
 //hint: gunakan sesuatu yang blocking
 func start(multiplyCalled *bool) {
 	go multiply(4, 5, multiplyCalled)
+	time.Sleep(10 * time.Millisecond)
 	// TODO: answer here
 }
