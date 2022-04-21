@@ -21,5 +21,11 @@ func playMatch(i int) {
 }
 
 func startTournament() {
+	for i := 0; i < 10; i++ {
+		go playMatch(i)
+	}
+
+	time.Sleep(150 * time.Millisecond)
+
 	// TODO: answer here
 }
