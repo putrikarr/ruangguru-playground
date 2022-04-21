@@ -10,6 +10,9 @@ var names = []string{"budi", "toni", "adi", "ado", "alif", "yudi"}
 
 //mengembalikan string, dimana `name` menyapa semua `names`
 func greetAll(person string, names []string, output chan<- string) {
+	for _, name := range names {
+		output <- fmt.Sprintf("%s say hello to %s", person, name)
+	}
 	// TODO: answer here
 	fmt.Println("selesai mengirim")
 

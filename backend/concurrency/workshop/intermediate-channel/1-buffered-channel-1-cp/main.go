@@ -10,8 +10,10 @@ func testBuffer(output chan int) {
 
 	sum := 0
 	for i := 0; i < cap(input); i++ {
-		// TODO: answer here
+		sum += <-input
 	}
+
+	// TODO: answer here
 
 	output <- sum
 }
