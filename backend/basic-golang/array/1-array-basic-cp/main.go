@@ -9,7 +9,7 @@ func main() {
 	// TODO: answer here
 	// var data1 int = 10
 	// var array1 [10]int
-	array1 := [10]int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
+	array1 := [5]string{"P", "U", "T", "R", "I"}
 
 	// fmt.Println(array1)
 	fmt.Println(array1[2])
