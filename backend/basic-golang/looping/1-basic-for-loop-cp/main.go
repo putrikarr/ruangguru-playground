@@ -10,5 +10,6 @@ func main() {
 	result := 0
 	for i := 0; i <= len(data); i++ {
 		// TODO: answer here
+		result += data[i]
 	}
 }
