@@ -11,8 +11,16 @@ import (
 // Full Problem: https://www.hackerrank.com/challenges/compare-the-triplets/problem
 
 func compareTriplets(a []int32, b []int32) []int32 {
-
 	// TODO: answer here
+	arr := []int32{0, 0}
+	for i := range a {
+		if a[i] > b[i] {
+			arr[0] = arr[0] + 1
+		} else if a[i] < b[i] {
+			arr[1] = arr[1] + 1
+		}
+	}
+	return arr
 }
 
 func main() {
