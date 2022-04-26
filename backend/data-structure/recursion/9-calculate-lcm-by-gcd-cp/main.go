@@ -37,6 +37,8 @@ func LCM(a, b int, integers ...int) int {
 
 	// if there are more integers, find LCM of all integers
 	for i := 0; i < len(integers); i++ {
+		result = LCM(result, integers[i])
+
 		// TODO: answer here
 	}
 
