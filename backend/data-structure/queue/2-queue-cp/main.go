@@ -104,11 +104,36 @@ func main() {
 }
 
 func (q Queue) InsertRear(rearValue string) (Queue, error) {
-	return q, nil // TODO: replace this
+	if r == n-1 {
+		return q, fmt.Errorf("Overflow")
+	} else if r == -1 {
+		r++
+		f++
+		q[r] = rearValue
+	} else {
+		r++
+		q[r] = rearValue
+	}
+	return q, nil
+	//return q, nil // TODO: replace this
 }
 
 func (q Queue) InsertFront(frontValue string) (Queue, error) {
-	return q, nil // TODO: replace this
+	if f == 0 {
+		return q, fmt.Errorf("element cannot be inserted")
+	} else if f == -1 {
+		f++
+		r++
+		q[f] = frontValue
+	} else {
+		for i := f; i > 0; i-- {
+			q[i] = q[i-1]
+		}
+		f++
+		q[f] = frontValue
+	}
+	return q, nil
+	//return q, nil // TODO: replace this
 }
 
 func (q Queue) deleteRear() (string, error) {
