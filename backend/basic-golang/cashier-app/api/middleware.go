@@ -28,31 +28,32 @@ func (api *API) AuthMiddleWare(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		api.AllowOrigin(w, r)
 		encoder := json.NewEncoder(w)
-		encoder.Encode(map[string]string{"message": "Token is required"})
 		// Task: 1. Ambil token dari cookie yang dikirim ketika request
 		//       2. return unauthorized ketika token kosong
 		//       3. return bad request ketika field token tidak ada
 		// TODO: answer here
 
-		c, err := r.Cookie("token")
+		tokenCookie, err := r.Cookie(jwtCookieKey)
 		if err != nil {
 			if err == http.ErrNoCookie {
 				// return unauthorized ketika token kosong
+				encoder.Encode(AuthErrorResponse{err.Error()})
 				w.WriteHeader(http.StatusUnauthorized)
 				return
 			}
 			// return bad request ketika field token tidak ada
+			encoder.Encode(AuthErrorResponse{err.Error()})
 			w.WriteHeader(http.StatusBadRequest)
 			return
 		}
 
 		// Task: Ambil value dari cookie token
 		// TODO: answer here
-		tknStr := c.Value
+		tokenValue := tokenCookie.Value
 
 		// Task: Deklarasi variable claim
 		// TODO: answer here
-		claims := &Claims{}
+		claims := Claims{}
 
 		// Task: 1. parse JWT token ke dalam claim
 		//       2. return unauthorized ketika signature invalid
@@ -60,32 +61,35 @@ func (api *API) AuthMiddleWare(next http.Handler) http.Handler {
 		//       4. return unauthorized ketika token sudah tidak valid (biasanya karna token expired)
 		// TODO: answer here
 		//parse JWT token ke dalam claim
-		tkn, err := jwt.ParseWithClaims(tknStr, claims, func(token *jwt.Token) (interface{}, error) {
+		token, err := jwt.ParseWithClaims(tokenValue, &claims, func(token *jwt.Token) (interface{}, error) {
 			return jwtKey, nil
 		})
 		if err != nil {
 			if err == jwt.ErrSignatureInvalid {
 				w.WriteHeader(http.StatusUnauthorized)
+				encoder.Encode(AuthErrorResponse{err.Error()})
 				return
 			}
 			w.WriteHeader(http.StatusBadRequest)
+			encoder.Encode(AuthErrorResponse{err.Error()})
 			return
 		}
 
 		//return unauthorized ketika token sudah tidak valid (biasanya karna token expired)
-		if !tkn.Valid {
+		if !token.Valid {
+			encoder.Encode(AuthErrorResponse{"Invalid token: expired"})
 			w.WriteHeader(http.StatusUnauthorized)
 			return
 		}
 
 		// Task: Validasi username dan password
-		if claims.Username != string(jwtKey) {
-			ctx := context.WithValue(r.Context(), "props", claims)
-			next.ServeHTTP(w, r.WithContext(ctx))
-			return
-		}
+		// if claims.Username != string(jwtKey) {
+		ctx := context.WithValue(r.Context(), "props", claims)
+		next.ServeHTTP(w, r.WithContext(ctx))
+		// 	return
+		// }
 
-		w.WriteHeader(http.StatusUnauthorized)
+		//w.WriteHeader(http.StatusUnauthorized)
 		//json.NewEncoder(w).Encode(http.StatusUnauthorized)
 		//return next.ServeHTTP(w, r) // TODO: replace this
 	})
