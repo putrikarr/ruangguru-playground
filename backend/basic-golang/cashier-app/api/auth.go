@@ -41,32 +41,36 @@ func (api *API) login(w http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	// Task: 1. Deklarasi expiry time untuk token jwt
-	//       2. Buat claim menggunakan variable yang sudah didefinisikan diatas
-	//       3. expiry time menggunakan time millisecond
+	expirationTime := time.Now().Add(time.Millisecond)
 
-<<<<<<< HEAD
-	json.NewEncoder(w).Encode(LoginSuccessResponse{Username: *res}) // TODO: replace this
-=======
-	// TODO: answer here
+	claims := &Claims{
+		Username: username,
+		StandardClaims: jwt.StandardClaims{
+			ExpiresAt: expirationTime.Unix(),
+		},
+	}
 
-	// Task: Buat token menggunakan encoded claim dengan salah satu algoritma yang dipakai
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 
-	// TODO: answer here
+	tokenString, err := token.SignedString(jwtKey)
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		encoder.Encode(AuthErrorResponse{Error: err.Error()})
+		return
+	}
 
-	// Task: 1. Buat jwt string dari token yang sudah dibuat menggunakan JWT key yang telah dideklarasikan
-	//       2. return internal error ketika ada kesalahan ketika pembuatan JWT string
+	http.SetCookie(w, &http.Cookie{
+		Name:    "token",
+		Value:   tokenString,
+		Expires: expirationTime,
+	})
 
-	// TODO: answer here
+	encoder.Encode(LoginSuccessResponse{
+		Username: username,
+		Token:    tokenString,
+	})
 
-	// Task: Set token string kedalam cookie response
-
-	// TODO: answer here
-
-	// Task: Return response berupa username dan token JWT yang sudah login
-
-	json.NewEncoder(w).Encode(LoginSuccessResponse{Username: "", Token: ""}) // TODO: replace this
->>>>>>> ec83e542cd0aa91bf28ba3e1766385deead37676
+	json.NewEncoder(w).Encode(res)
 }
 
 func (api *API) logout(w http.ResponseWriter, req *http.Request) {
@@ -80,8 +84,73 @@ func (api *API) logout(w http.ResponseWriter, req *http.Request) {
 
 	}
 
+	//encoder.Encode(AuthErrorResponse{Error: ""}) // TODO: replace this
 	json.NewEncoder(w).Encode(AuthErrorResponse{Error: username}) // TODO: replace this
 }
 
-// 	encoder.Encode(AuthErrorResponse{Error: ""}) // TODO: replace this
+//encoder.Encode(AuthErrorResponse{Error: ""}) // TODO: replace this
 // }
+
+// 	// Task: 1. Deklarasi expiry time untuk token jwt
+// 	//       2. Buat claim menggunakan variable yang sudah didefinisikan diatas
+// 	//       3. expiry time menggunakan time millisecond
+// 	// Deklarasi expiry time
+// 	expirationTime := time.Now().Add(time.Millisecond)
+
+// 	// Buat claim
+// 	claims := &Claims{
+// 		Username: string(jwtKey),
+// 		StandardClaims: jwt.StandardClaims{
+// 			// expiry time menggunakan time millisecond
+// 			ExpiresAt: expirationTime.Unix(),
+// 		},
+// 	}
+
+// 	//json.NewEncoder(w).Encode(LoginSuccessResponse{Username: *res}) // TODO: replace this
+// 	// TODO: answer here
+
+// 	// Task: Buat token menggunakan encoded claim dengan salah satu algoritma yang dipakai
+// 	// TODO: answer here
+// 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
+
+// 	// Task: 1. Buat jwt string dari token yang sudah dibuat menggunakan JWT key yang telah dideklarasikan
+// 	//       2. return internal error ketika ada kesalahan ketika pembuatan JWT string
+// 	// TODO: answer here
+// 	// Buat jwt string dari token
+// 	tokenString, err := token.SignedString(jwtKey)
+// 	if err != nil {
+// 		// return internal error ketika ada kesalahan ketika pembuatan JWT string
+// 		w.WriteHeader(http.StatusInternalServerError)
+// 		return
+// 	}
+
+// 	// Task: Set token string kedalam cookie response
+// 	// TODO: answer here
+// 	http.SetCookie(w, &http.Cookie{
+// 		Name:    "token",
+// 		Value:   tokenString,
+// 		Expires: expirationTime,
+// 	})
+
+// 	// Task: Return response berupa username dan token JWT yang sudah login
+// 	//w.Write([]byte("Login Success"))
+// 	json.NewEncoder(w).Encode(LoginSuccessResponse{Username: *res, Token: tokenString}) // TODO: replace this
+// }
+
+// func (api *API) logout(w http.ResponseWriter, req *http.Request) {
+// 	api.AllowOrigin(w, req)
+// 	username := req.URL.Query().Get("username")
+// 	err := api.usersRepo.Logout(username)
+// 	if err != nil {
+// 		w.WriteHeader(http.StatusUnauthorized)
+// 		encoder := json.NewEncoder(w)
+// 		encoder.Encode(AuthErrorResponse{Error: err.Error()})
+
+// 	}
+
+// 	//encoder.Encode(AuthErrorResponse{Error: ""}) // TODO: replace this
+// 	json.NewEncoder(w).Encode(AuthErrorResponse{Error: username}) // TODO: replace this
+// }
+
+// //encoder.Encode(AuthErrorResponse{Error: ""}) // TODO: replace this
+// // }

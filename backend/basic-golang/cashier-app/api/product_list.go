@@ -21,7 +21,14 @@ type ProductListSuccessResponse struct {
 }
 
 func (api *API) productList(w http.ResponseWriter, req *http.Request) {
+	api.AllowOrigin(w, req)
 	encoder := json.NewEncoder(w)
+	// _, err := api.AuthMiddleWare(w, req)
+	// if err != nil {
+	// 	w.WriteHeader(http.StatusUnauthorized)
+	// 	encoder.Encode(ProductListErrorResponse{Error: err.Error()})
+	// 	return
+	// }
 
 	response := ProductListSuccessResponse{}
 	response.Products = make([]Product, 0)

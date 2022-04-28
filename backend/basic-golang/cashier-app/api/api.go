@@ -23,14 +23,6 @@ func NewAPI(usersRepo repository.UserRepository, productsRepo repository.Product
 
 	mux.HandleFunc("/api/user/login", api.login)
 	mux.HandleFunc("/api/user/logout", api.logout)
-<<<<<<< HEAD
-	mux.HandleFunc("/api/dashboard", api.dashboard)
-	mux.HandleFunc("/api/products", api.productList)
-	mux.HandleFunc("/api/cart/add", api.addToCart)
-	mux.HandleFunc("/api/cart/clear", api.clearCart)
-	mux.HandleFunc("/api/carts", api.cartList)
-	// TODO: answer here
-=======
 
 	// API with AuthMiddleware:
 	mux.Handle("/api/dashboard", api.AuthMiddleWare(http.HandlerFunc(api.dashboard)))
@@ -45,7 +37,6 @@ func NewAPI(usersRepo repository.UserRepository, productsRepo repository.Product
 	// mux.HandleFunc("/api/cart/clear", api.clearCart)
 	// mux.HandleFunc("/api/cart/clear", api.clearCart)
 	// mux.HandleFunc("/api/carts", api.cartList)
->>>>>>> ec83e542cd0aa91bf28ba3e1766385deead37676
 
 	return api
 }
