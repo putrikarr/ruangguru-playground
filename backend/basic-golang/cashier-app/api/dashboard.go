@@ -38,7 +38,7 @@ func (api *API) dashboard(w http.ResponseWriter, req *http.Request) {
 
 	defer func() {
 		if err != nil {
-			w.WriteHeader(http.StatusBadRequest)
+			w.WriteHeader(http.StatusUnauthorized)
 			encoder.Encode(DashboardErrorResponse{Error: err.Error()})
 			return
 		}
