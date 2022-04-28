@@ -15,12 +15,13 @@ func NewProductRepository(db db.DB) ProductRepository {
 }
 
 func (u *ProductRepository) LoadOrCreate() ([]Product, error) {
+	//beginanswer
 	records, err := u.db.Load("products")
 	if err != nil {
 		records = [][]string{
 			{"category", "product_name", "price"},
 		}
-		if err := u.db.Save("products", records); err != nil {
+		if err := u.db.Save("product", records); err != nil {
 			return nil, err
 		}
 	}
@@ -32,21 +33,24 @@ func (u *ProductRepository) LoadOrCreate() ([]Product, error) {
 			return nil, err
 		}
 
-		produk := Product{
+		user := Product{
 			Category:    records[i][0],
 			ProductName: records[i][1],
 			Price:       price,
 		}
-		result = append(result, produk)
+		result = append(result, user)
 	}
 
 	return result, nil
+	//endanswer return []Product{}, nil
 }
 
 func (u *ProductRepository) SelectAll() ([]Product, error) {
-	product, err := u.LoadOrCreate()
+	//beginanswer
+	productItems, err := u.LoadOrCreate()
 	if err != nil {
 		return nil, err
 	}
-	return product, nil
+	return productItems, nil
+	//endanswer return []Product{}, nil
 }

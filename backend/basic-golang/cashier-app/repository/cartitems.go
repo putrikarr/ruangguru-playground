@@ -65,11 +65,13 @@ func (u *CartItemRepository) Save(cartItems []CartItem) error {
 }
 
 func (u *CartItemRepository) SelectAll() ([]CartItem, error) {
+	//beginanswer
 	cartItems, err := u.LoadOrCreate()
 	if err != nil {
 		return nil, err
 	}
 	return cartItems, nil
+	//endanswer return []CartItem{}, nil
 }
 
 func (u *CartItemRepository) Add(product Product) error {
@@ -77,51 +79,50 @@ func (u *CartItemRepository) Add(product Product) error {
 	if err != nil {
 		return err
 	}
-	flag := false
+
+	//beginanswer
+
+	//update
 	for i := 0; i < len(cartItems); i++ {
 		if cartItems[i].ProductName == product.ProductName {
-			flag = true
 			cartItems[i].Quantity++
 			return u.Save(cartItems)
 		}
 	}
-	if flag == false {
-		cartItems = append(cartItems, CartItem{
-			Category:    product.Category,
-			ProductName: product.ProductName,
-			Price:       product.Price,
-			Quantity:    1,
-		})
-	}
-	return u.Save(cartItems) // TODO: replace this
+
+	//insert
+	cartItems = append(cartItems, CartItem{
+		Category:    product.Category,
+		ProductName: product.ProductName,
+		Price:       product.Price,
+		Quantity:    1,
+	})
+	return u.Save(cartItems)
+	//endanswer return nil
 }
 
 func (u *CartItemRepository) ResetCartItems() error {
-	cartItems, err := u.LoadOrCreate()
-	if err != nil {
-		return err
+	//beginanswer
+	u.db.Delete("cart_items")
+	records := [][]string{
+		{"category", "product_name", "price", "quantity"},
 	}
-	cartItems = nil
-
-	return u.Save(cartItems) // TODO: replace this
+	return u.db.Save("cart_items", records)
+	//endanswer return nil
 }
 
 func (u *CartItemRepository) TotalPrice() (int, error) {
+	//beginanswer
 	cartItems, err := u.LoadOrCreate()
 	if err != nil {
 		return 0, err
 	}
-	var dummy []int
-	var total int
+
+	totalPrice := 0
 	for i := 0; i < len(cartItems); i++ {
-		price := cartItems[i].Price
-		dummy = append(dummy, int(price))
+		totalPrice += cartItems[i].Price * cartItems[i].Quantity
 	}
 
-	for _, v := range dummy {
-		total += v
-	}
-	total += 2000
-
-	return total, nil
+	return totalPrice, nil
+	//endanswer return 0, nil
 }

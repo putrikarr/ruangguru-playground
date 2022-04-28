@@ -25,7 +25,6 @@ type DashboardSuccessResponse struct {
 }
 
 func (api *API) dashboard(w http.ResponseWriter, req *http.Request) {
-	api.AllowOrigin(w, req)
 	encoder := json.NewEncoder(w)
 	username, err := api.usersRepo.FindLoggedinUser()
 	if err != nil {
