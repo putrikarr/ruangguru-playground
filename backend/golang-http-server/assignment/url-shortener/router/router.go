@@ -10,7 +10,7 @@ func SetupRouter(urlHandler handlers.URLHandler) *gin.Engine {
 
 	r := gin.Default()
 
-	r.GET("/:path", urlHandler.Get)
+	r.GET("/:shortUrl", urlHandler.Get)
 	r.POST("/", urlHandler.Create)
 	r.POST("/custom", urlHandler.CreateCustom)
 
