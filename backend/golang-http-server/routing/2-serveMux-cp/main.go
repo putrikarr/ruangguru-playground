@@ -12,15 +12,28 @@ import (
 
 var TimeHandler = func(writer http.ResponseWriter, request *http.Request) {
 	// TODO: answer here
+	t := time.Now()
+	output := fmt.Sprintf("%v, %v %v %v", t.Weekday(), t.Day(), t.Month(), t.Year())
+	fmt.Fprint(writer, output)
 }
 
 var SayHelloHandler = func(w http.ResponseWriter, r *http.Request) {
 	// TODO: answer here
+	name := r.URL.Query().Get("name")
+	if name == "" {
+		fmt.Fprint(w, "Hello there")
+		return
+	}
+	output := fmt.Sprintf("Hello, %v!", name)
+	fmt.Fprint(w, output)
 }
 
 func main() {
 	mux := http.NewServeMux()
 	// TODO: answer here
+	mux.HandleFunc("/time", TimeHandler)
+	mux.HandleFunc("/hello", SayHelloHandler)
+	log.Fatal(http.ListenAndServe(":8080", mux))
 
 	server := http.Server{
 		Addr:    "localhost:8080",
