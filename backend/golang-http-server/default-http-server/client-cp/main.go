@@ -1,16 +1,19 @@
 package main
 
 import (
-	"fmt"
-	"io/ioutil"
+	"log"
 	"net/http"
 )
 
-// Dari contoh yang diberikan, cobalah untuk mengimplementasikan sebuah http client sederhana.
-// Buatlah sebuah http client dan lakukan request GET ke API https://www.metaweather.com/api/.
-// Buatlah request get ke endpoint /api/location/(woeid)/(date)/ dengan nilai woeid 1047378.
-// Untuk date, gunakan format YYYY/MM/dd
+// Dari contoh yang diberikan, buatlah implementasi server dengan menggunakan struct Server dari package http/net/
+// Buatlah server dengan address localhost dan di port 3000
 
 func main() {
 	// TODO: answer here
+	server := http.Server{
+		Addr: "localhost:3000",
+	}
+
+	log.Println("Server running on port 3000")
+	log.Fatal(server.ListenAndServe())
 }
