@@ -34,34 +34,6 @@ func (api *API) getDashboard(w http.ResponseWriter, req *http.Request) {
 
 	// TODO: answer here
 
-	var getSalesRequest repository.GetSalesRequest
-
-	if req.URL.Query().Get("end_period") == "" && req.URL.Query().Get("start_period") != "" {
-		getSalesRequest = repository.GetSalesRequest{
-			StartPeriod: &startPeriod,
-			EndPeriod:   nil,
-			ProductName: productName,
-		}
-	} else if req.URL.Query().Get("end_period") != "" && req.URL.Query().Get("start_period") == "" {
-		getSalesRequest = repository.GetSalesRequest{
-			StartPeriod: nil,
-			EndPeriod:   &endPeriod,
-			ProductName: productName,
-		}
-	} else if req.URL.Query().Get("end_period") == "" && req.URL.Query().Get("start_period") == "" {
-		getSalesRequest = repository.GetSalesRequest{
-			StartPeriod: nil,
-			EndPeriod:   nil,
-			ProductName: productName,
-		}
-	} else {
-		getSalesRequest = repository.GetSalesRequest{
-			StartPeriod: &startPeriod,
-			EndPeriod:   &endPeriod,
-			ProductName: productName,
-		}
-	}
-
 	encoder := json.NewEncoder(w)
 
 	sales, err := api.salesRepo.Get(getSalesRequest)
