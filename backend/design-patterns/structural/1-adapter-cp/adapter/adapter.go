@@ -39,5 +39,9 @@ type Mp3ToKasetAdapter struct {
 }
 
 func (a Mp3ToKasetAdapter) Play(m Mp3) string {
-	return "" // TODO: replace this
+	//return "" // TODO: replace this
+	k := Kaset{}
+	k.PitaMusik = string(m.Data)
+	a.Adaptee.Play(k)
+	return string(m.Data)
 }
