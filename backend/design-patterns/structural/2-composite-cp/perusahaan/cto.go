@@ -11,5 +11,11 @@ func (c CTO) GetSalary() int {
 }
 
 func (c CTO) TotalDivisonSalary() int {
-	return 0 // TODO: replace this
+	//return 0 // TODO: replace this
+	var sum int
+	for _, v := range c.Subordinate {
+		sum = sum + v.TotalDivisonSalary()
+	}
+	fmt.Println(c.GetSalary())
+	return c.GetSalary() + sum
 }
