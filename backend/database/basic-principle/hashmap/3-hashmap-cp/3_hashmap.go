@@ -32,6 +32,17 @@ func NewUser() *UserDB {
 
 func (db *UserDB) Insert(name string, age int) {
 	// TODO: answer here
+	PrimaryKey := PrimaryKey(len(db.ByID) + 1)
+	SecondaryKey := SecondaryKey(name)
+
+	user := &UserRow{
+		ID:   PrimaryKey,
+		Name: SecondaryKey,
+		Age:  age,
+	}
+
+	db.ByID[PrimaryKey] = *user
+	db.ByName[SecondaryKey] = append(db.ByName[SecondaryKey], PrimaryKey)
 }
 
 func (db *UserDB) WhereByID(id PrimaryKey) *UserRow {
@@ -46,11 +57,20 @@ func (db *UserDB) WhereByName(name SecondaryKey) []*UserRow {
 	ids := db.ByName[name]
 	rows := make([]*UserRow, len(ids))
 	// TODO: answer here
+	for i, id := range ids {
+		user := db.WhereByID(id)
+		rows[i] = user
+	}
 	return rows
 }
 
 func (db *UserDB) WhereNameBeginsWith(name string) []*UserRow {
 	rows := make([]*UserRow, 0)
 	// TODO: answer here
+	for key := range db.ByName {
+		if strings.HasPrefix(string(key), name) {
+			rows = append(rows, db.WhereByName(key)...)
+		}
+	}
 	return rows
 }
