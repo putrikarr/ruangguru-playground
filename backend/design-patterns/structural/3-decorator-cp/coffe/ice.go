@@ -18,7 +18,14 @@ func (i Ice) GetCost() float64 {
 }
 
 func (i Ice) GetDescription() string {
-	return description // TODO: replace this
+	//return description // TODO: replace this
+	description := i.Coffe.GetDescription() + ", Ice"
+
+	check := checkRepeatingWord(description)
+	if check && i.Coffe.GetCost() > 3.30 {
+		description = description + ", BEKU"
+	}
+	return description
 }
 
 // check repeating word in a string
