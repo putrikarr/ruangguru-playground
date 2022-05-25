@@ -27,7 +27,7 @@ func (p *PlaylistRepository) FetchUserPlaylists(userID int64) ([]model.UserPlayl
 
 	// Task 1: Buat query untuk mengambil playlist yang dimiliki user
 	// TODO: answer here
-	sqlStatement = `SELECT u.id, u.name, p.id, p.name FROM playlists p JOIN users u ON u.id = p.user_id WHERE u.id = ?`
+	sqlStatement = `SELECT u.id, u.name, p.id, p.name FROM playlists p JOIN users u ON u.id = p.user_id WHERE u.id = ?;`
 
 	// Task 2: Buat execute statement untuk mengambil playlist yang dimiliki user
 	// TODO: answer here
@@ -41,7 +41,9 @@ func (p *PlaylistRepository) FetchUserPlaylists(userID int64) ([]model.UserPlayl
 	// TODO: answer here
 	defer rows.Close()
 	for rows.Next() {
-		err := rows.Scan(&playlist.UserID, &playlist.UserName, &playlist.PlaylistID, &playlist.PlaylistName)
+		err := rows.Scan(&playlist.UserID, &playlist.UserName,
+			&playlist.PlaylistID, &playlist.PlaylistName)
+
 		if err != nil {
 			return nil, err
 		}
@@ -56,7 +58,7 @@ func (p *PlaylistRepository) CreatePlaylist(playlist model.Playlist) error {
 
 	// Task 1 : Buat query untuk menambahkan playlist baru
 	// TODO: answer here
-	sqlStatement = `INSERT INTO playlists (name, user_id, created_at) VALUES (?, ?, ?)`
+	sqlStatement = `INSERT INTO playlists (name, user_id, created_at) VALUES (?, ?, ?);`
 
 	// Task 2 := Buat execute statement untuk menambahkan playlist baru
 	// TODO: answer here
@@ -73,7 +75,7 @@ func (p *PlaylistRepository) UpdateUserPlaylist(userID int64, playlist model.Pla
 
 	// Task 1 : Buat query untuk mengupdate playlist name dengan id playlist tertentu yang dimiliki user tertentu
 	// TODO: answer here
-	sqlStatement = `UPDATE playlists SET name = ? WHERE id = ? AND user_id = ?`
+	sqlStatement = `UPDATE playlists SET name = ? WHERE id = ? AND user_id = ;`
 
 	// Task 2 : Buat execute statement untuk mengupdate playlist name dengan id playlist tertentu yang dimiliki user tertentu
 	// TODO: answer here
@@ -90,7 +92,10 @@ func (p *PlaylistRepository) FetchPlaylistTrack(playlistID int64) ([]model.Playl
 
 	// Task 1 : Buat query untuk mengambil track yang dimiliki playlist tertentu
 	// TODO: answer here
-	sqlStatement = `SELECT p.id, p.name, t.id, t.name, t.artist FROM playlist_tracks pt JOIN playlists as p ON p.id = pt.playlist_id JOIN tracks as t ON t.id = pt.track_id WHERE p.id = ?`
+	sqlStatement = `SELECT p.id, p.name, t.id, t.name, t.artist FROM playlist_tracks pt 
+		JOIN playlists as p ON p.id = pt.playlist_id JOIN tracks as t ON t.id = pt.track_id
+		WHERE p.id = ?;
+	`
 
 	// Task 2 : Buat execute statement untuk mengambil track yang dimiliki playlist tertentu
 	// TODO: answer here
@@ -105,7 +110,9 @@ func (p *PlaylistRepository) FetchPlaylistTrack(playlistID int64) ([]model.Playl
 	defer rows.Close()
 	for rows.Next() {
 		var pt model.PlaylistTrack
-		err := rows.Scan(&pt.PlaylistID, &pt.PlaylistName, &pt.TrackID, &pt.TrackName, &pt.TrackArtist)
+		err := rows.Scan(&pt.PlaylistID, &pt.PlaylistName, &pt.TrackID,
+			&pt.TrackName, &pt.TrackArtist)
+
 		if err != nil {
 			return nil, err
 		}
