@@ -40,6 +40,8 @@ func main() {
 	}
 	//kapan terjadi blocking pada program ini ?
 	// TODO: answer here
+	time.Sleep(10 * time.Second)
+
 }
 
 func longRunningProcess(taskID int) {
