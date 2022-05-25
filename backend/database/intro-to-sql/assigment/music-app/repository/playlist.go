@@ -75,7 +75,7 @@ func (p *PlaylistRepository) UpdateUserPlaylist(userID int64, playlist model.Pla
 
 	// Task 1 : Buat query untuk mengupdate playlist name dengan id playlist tertentu yang dimiliki user tertentu
 	// TODO: answer here
-	sqlStatement = `UPDATE playlists SET name = ? WHERE id = ? AND user_id = ;`
+	sqlStatement = `UPDATE playlists SET name = ? WHERE id = ? AND user_id = ?;`
 
 	// Task 2 : Buat execute statement untuk mengupdate playlist name dengan id playlist tertentu yang dimiliki user tertentu
 	// TODO: answer here
