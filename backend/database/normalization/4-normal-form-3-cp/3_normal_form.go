@@ -58,7 +58,7 @@ func Migrate() (*sql.DB, error) {
 		total		INTEGER,
 		bayar		INTEGER,
 		kembalian	INTEGER,
-		kode_kasir	VARCHAR(12),
+		kode_kasir	VARCHAR(20),
 		tanggal		TEXT,
 		waktu		TEXT
 	);` // TODO: replace this
@@ -70,7 +70,8 @@ func Migrate() (*sql.DB, error) {
 
 	_, err = db.Exec(`INSERT INTO rekap (no_bon, discount, total, bayar, kembalian, kode_kasir, tanggal, waktu) VALUES
 		("00001", 0, 77000, 100000, 23000, "K01", "04-05-2022", "12:00:00"),
-		("00002", 0, 117500, 117500, 0, "K02", "04-05-2022", "12:00:00")
+		("00002", 0, 117500, 117500, 0, "K02", "04-05-2022", "12:00:00"),
+		("00003", 0, 98000, 100000, 2000, "K03", "04-05-2022", "12:00:00")
 	;`) // TODO: replace this
 
 	if err != nil {
@@ -79,7 +80,7 @@ func Migrate() (*sql.DB, error) {
 
 	sqlStmt = `CREATE TABLE IF NOT EXISTS rekap_detail (
 		no_bon		INTEGER,
-		kode_barang	VARCHAR(12),
+		kode_barang	VARCHAR(20),
 		harga		INTEGER,
 		jumlah		INTEGER
 	);` // TODO: replace this
@@ -104,8 +105,8 @@ func Migrate() (*sql.DB, error) {
 	}
 
 	sqlStmt = `CREATE TABLE IF NOT EXISTS barang (
-		kode_barang	VARCHAR(12) PRIMARY KEY,
-		nama_barang	VARCHAR(50),
+		kode_barang	VARCHAR(20) PRIMARY KEY,
+		nama_barang	VARCHAR(20),
 		harga		INTEGER
 	);` // TODO: replace this
 
@@ -127,8 +128,8 @@ func Migrate() (*sql.DB, error) {
 	}
 
 	sqlStmt = `CREATE TABLE IF NOT EXISTS kasir (
-		kode_kasir	VARCHAR(12) PRIMARY KEY,
-		nama_kasir	VARCHAR(50)
+		kode_kasir	VARCHAR(20) PRIMARY KEY,
+		nama_kasir	VARCHAR(20)
 	);` // TODO: replace this
 
 	_, err = db.Exec(sqlStmt)
